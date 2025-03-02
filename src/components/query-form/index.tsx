@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, Plus, Trash2 } from "lucide-react"
+import { Check, GripVertical, Plus, Trash2 } from "lucide-react"
 import { useEffect } from "react"
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -34,7 +35,7 @@ export function QueryForm() {
     }
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control: form.control,
     name: "params"
   })
@@ -68,6 +69,15 @@ export function QueryForm() {
     })
   }
 
+  // Handle drag end to reorder params
+  const onDragEnd = (result: any) => {
+    const { source, destination } = result
+    if (!destination) return // Dropped outside the list
+    move(source.index, destination.index) // Reorder the fields array
+    const params = form.getValues("params")
+    updateFullQuery(params) // Sync fullQuery with new order
+  }
+
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form values:", values)
@@ -94,7 +104,7 @@ export function QueryForm() {
               <FormControl>
                 <Input
                   placeholder="?key=value"
-                  className="text-sm"
+                  className="text-sm border border-neutral-200 rounded-md"
                   {...field}
                   onChange={(e) => {
                     field.onChange(e)
@@ -121,67 +131,91 @@ export function QueryForm() {
           )}
         />
 
-        {/* Dynamic Query Parameters */}
+        {/* Dynamic Query Parameters with Drag-and-Drop */}
         <div className="space-y-2">
           <h3 className="text-sm font-medium">Parameters</h3>
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex space-x-2">
-              <FormField
-                control={form.control}
-                name={`params.${index}.key`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormControl>
-                      <Input
-                        placeholder="key"
-                        className="text-sm"
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e)
-                          const params = form.getValues("params")
-                          updateFullQuery(params)
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`params.${index}.value`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormControl>
-                      <Input
-                        placeholder="value"
-                        className="text-sm"
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e)
-                          const params = form.getValues("params")
-                          updateFullQuery(params)
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                onClick={() => {
-                  remove(index)
-                  const params = form.getValues("params")
-                  updateFullQuery(params)
-                }}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="parameters">
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="space-y-2">
+                  {fields.map((field, index) => (
+                    <Draggable
+                      key={field.id}
+                      draggableId={field.id}
+                      index={index}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="flex items-center space-x-2 p-2 rounded-md hover:bg-neutral-200 transition-colors">
+                          <GripVertical className="h-5 w-5 text-gray-400 cursor-grab" />
+                          <FormField
+                            control={form.control}
+                            name={`params.${index}.key`}
+                            render={({ field }) => (
+                              <FormItem className="flex-1">
+                                <FormControl>
+                                  <Input
+                                    placeholder="key"
+                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300"
+                                    {...field}
+                                    onChange={(e) => {
+                                      field.onChange(e)
+                                      const params = form.getValues("params")
+                                      updateFullQuery(params)
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage className="text-xs" />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`params.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem className="flex-1">
+                                <FormControl>
+                                  <Input
+                                    placeholder="value"
+                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300"
+                                    {...field}
+                                    onChange={(e) => {
+                                      field.onChange(e)
+                                      const params = form.getValues("params")
+                                      updateFullQuery(params)
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage className="text-xs" />
+                              </FormItem>
+                            )}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9"
+                            onClick={() => {
+                              remove(index)
+                              const params = form.getValues("params")
+                              updateFullQuery(params)
+                            }}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           <Button
             type="button"
             variant="outline"
