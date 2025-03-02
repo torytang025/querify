@@ -93,18 +93,22 @@ export function QueryForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 dark:bg-neutral-900">
         {/* Full Query String Field */}
         <FormField
           control={form.control}
           name="fullQuery"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">Query String</FormLabel>
+              <FormLabel className="text-sm dark:text-neutral-200">
+                Query String
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="?key=value"
-                  className="text-sm border border-neutral-200 rounded-md"
+                  className="text-sm border border-neutral-200 rounded-md dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
                   {...field}
                   onChange={(e) => {
                     field.onChange(e)
@@ -126,14 +130,16 @@ export function QueryForm() {
                   }}
                 />
               </FormControl>
-              <FormMessage className="text-xs" />
+              <FormMessage className="text-xs dark:text-neutral-400" />
             </FormItem>
           )}
         />
 
         {/* Dynamic Query Parameters with Drag-and-Drop */}
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Parameters</h3>
+          <h3 className="text-sm font-medium dark:text-neutral-200">
+            Parameters
+          </h3>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="parameters">
               {(provided) => (
@@ -151,8 +157,8 @@ export function QueryForm() {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="flex items-center space-x-2 p-2 rounded-md hover:bg-neutral-200 transition-colors">
-                          <GripVertical className="h-5 w-5 text-gray-400 cursor-grab" />
+                          className="flex items-center space-x-2 p-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                          <GripVertical className="h-5 w-5 text-gray-400 dark:text-neutral-500 cursor-grab" />
                           <FormField
                             control={form.control}
                             name={`params.${index}.key`}
@@ -161,7 +167,7 @@ export function QueryForm() {
                                 <FormControl>
                                   <Input
                                     placeholder="key"
-                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300"
+                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
                                     {...field}
                                     onChange={(e) => {
                                       field.onChange(e)
@@ -170,7 +176,7 @@ export function QueryForm() {
                                     }}
                                   />
                                 </FormControl>
-                                <FormMessage className="text-xs" />
+                                <FormMessage className="text-xs dark:text-neutral-400" />
                               </FormItem>
                             )}
                           />
@@ -182,7 +188,7 @@ export function QueryForm() {
                                 <FormControl>
                                   <Input
                                     placeholder="value"
-                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300"
+                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
                                     {...field}
                                     onChange={(e) => {
                                       field.onChange(e)
@@ -191,7 +197,7 @@ export function QueryForm() {
                                     }}
                                   />
                                 </FormControl>
-                                <FormMessage className="text-xs" />
+                                <FormMessage className="text-xs dark:text-neutral-400" />
                               </FormItem>
                             )}
                           />
@@ -205,7 +211,7 @@ export function QueryForm() {
                               const params = form.getValues("params")
                               updateFullQuery(params)
                             }}>
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 className="h-4 w-4 dark:text-neutral-400" />
                           </Button>
                         </div>
                       )}
@@ -220,16 +226,19 @@ export function QueryForm() {
             type="button"
             variant="outline"
             size="sm"
-            className="w-full mt-2"
+            className="w-full dark:bg-neutral-500 dark:border-neutral-600 dark:text-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
             onClick={() => append({ key: "", value: "" })}>
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4 dark:text-neutral-200" />
             Add
           </Button>
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" size="sm" className="w-full">
-          <Check className="h-4 w-4" />
+        <Button
+          type="submit"
+          size="sm"
+          className="w-full dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-200">
+          <Check className="h-4 w-4 dark:text-neutral-200" />
           Apply
         </Button>
       </form>
