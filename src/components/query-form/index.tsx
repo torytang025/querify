@@ -130,7 +130,7 @@ export function QueryForm() {
                   }}
                 />
               </FormControl>
-              <FormMessage className="text-xs dark:text-neutral-400" />
+              <FormMessage className="text-xs dark:text-red-400" />
             </FormItem>
           )}
         />
@@ -157,50 +157,54 @@ export function QueryForm() {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="flex items-center space-x-2 p-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                          <GripVertical className="h-5 w-5 text-gray-400 dark:text-neutral-500 cursor-grab" />
-                          <FormField
-                            control={form.control}
-                            name={`params.${index}.key`}
-                            render={({ field }) => (
-                              <FormItem className="flex-1">
-                                <FormControl>
-                                  <Input
-                                    placeholder="key"
-                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
-                                    {...field}
-                                    onChange={(e) => {
-                                      field.onChange(e)
-                                      const params = form.getValues("params")
-                                      updateFullQuery(params)
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage className="text-xs dark:text-neutral-400" />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name={`params.${index}.value`}
-                            render={({ field }) => (
-                              <FormItem className="flex-1">
-                                <FormControl>
-                                  <Input
-                                    placeholder="value"
-                                    className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
-                                    {...field}
-                                    onChange={(e) => {
-                                      field.onChange(e)
-                                      const params = form.getValues("params")
-                                      updateFullQuery(params)
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage className="text-xs dark:text-neutral-400" />
-                              </FormItem>
-                            )}
-                          />
+                          className="flex items-start space-x-2 p-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                          <GripVertical className="h-5 w-5 text-gray-400 dark:text-neutral-500 cursor-grab mt-2" />
+                          <div className="flex-1">
+                            <FormField
+                              control={form.control}
+                              name={`params.${index}.key`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="key"
+                                      className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
+                                      {...field}
+                                      onChange={(e) => {
+                                        field.onChange(e)
+                                        const params = form.getValues("params")
+                                        updateFullQuery(params)
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage className="text-xs dark:text-red-400" />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <FormField
+                              control={form.control}
+                              name={`params.${index}.value`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="value"
+                                      className="text-sm w-full bg-transparent border border-neutral-200 rounded-md focus:ring-0 focus:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:focus:border-neutral-600"
+                                      {...field}
+                                      onChange={(e) => {
+                                        field.onChange(e)
+                                        const params = form.getValues("params")
+                                        updateFullQuery(params)
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage className="text-xs dark:text-red-400" />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
                           <Button
                             type="button"
                             variant="ghost"
