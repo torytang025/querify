@@ -1,33 +1,27 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+# Querify
 
-## Getting Started
+A sleek browser extension that revolutionizes how you interact with URL query parameters. Whether you're a developer testing APIs or a user customizing URLs, Querify provides an intuitive visual interface for modifying query strings in real-time.
 
-First, run the development server:
+![Querify Snapshot](./public/snapshot.png)
 
-```bash
-pnpm dev
-# or
-npm run dev
-```
+## Features
 
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+- 🔍 **Active Tab Integration**: Automatically loads and modifies query parameters from your current tab
+- 🔄 **Drag-and-Drop Parameter Sorting**: Easily reorder query parameters with intuitive drag-and-drop functionality
+- ➕ **Dynamic Parameter Management**: Add, remove, and modify query parameters with ease
 
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
+## Usage
 
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
+1. Click the Querify extension icon in your browser
+2. View and edit the current URL's query parameters
+3. Add new parameters using the "Add" button
+4. Drag parameters to reorder them
+5. Click "Apply" to update the URL with your changes
 
-## Making production build
+## License
 
-Run the following:
+MIT
 
-```bash
-pnpm build
-# or
-npm run build
-```
+## Author
 
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
-
-## Submit to the webstores
-
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+torytang.025@gmail.com
