@@ -43,8 +43,7 @@
       "https://*/*"
     ],
     "permissions": [
-      "tabs",
-      "activeTab"
+      "tabs"
     ]
   }
 }
